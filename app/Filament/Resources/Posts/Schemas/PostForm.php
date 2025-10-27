@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Posts\Schemas;
 
 use App\Enums\PostStatusType;
+use App\Models\User;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -14,16 +15,24 @@ class PostForm
     {
         return $schema
             ->components([
-                TextInput::make('user_id')
+                Select::make('user_id')
                     ->required()
-                    ->numeric(),
+                    ->label('User')
+                    ->searchable()
+                    ->placeholder('Select a user')
+                    ->options(User::all()->pluck('name', 'id')),
                 TextInput::make('title')
+                    ->placeholder('Post Title')
                     ->required(),
                 Textarea::make('description')
                     ->required()
-                    ->columnSpanFull(),
+                    ->placeholder('Post Description')
+                    ->columnSpanFull()
+                    ->rows(5),
                 Select::make('status')
-                    ->options(PostStatusType::class)
+                    ->label('Post Status')
+                    ->placeholder('Select Status')
+                    ->options(PostStatusType::getLabel())
                     ->required(),
             ]);
     }

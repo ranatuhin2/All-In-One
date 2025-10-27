@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Posts;
 use App\Filament\Resources\Posts\Pages\CreatePost;
 use App\Filament\Resources\Posts\Pages\EditPost;
 use App\Filament\Resources\Posts\Pages\ListPosts;
+use App\Filament\Resources\Posts\RelationManagers\UserRelationManager;
 use App\Filament\Resources\Posts\Schemas\PostForm;
 use App\Filament\Resources\Posts\Tables\PostsTable;
 use App\Models\Post;
@@ -33,7 +34,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            UserRelationManager::class,
         ];
     }
 

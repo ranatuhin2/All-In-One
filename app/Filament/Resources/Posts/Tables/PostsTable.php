@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Posts\Tables;
 use App\Enums\PostStatusType;
 use App\Models\User;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
@@ -17,17 +18,17 @@ class PostsTable
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->label('User')
-                    ->formatStateUsing(fn($state)=> User::find($state)->name)
-                    ->sortable(),
                 TextColumn::make('title')
                     ->label('Post Title')
                     ->searchable(),
+                TextColumn::make('user_id')
+                    ->label('User')
+                    ->formatStateUsing(fn($state) => User::find($state)->name)
+                    ->sortable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->icon(fn($state)=> $state === PostStatusType::ACTIVE ? Heroicon::CheckCircle : Heroicon::XCircle)
-                    ->color(fn($state)=> $state === PostStatusType::ACTIVE ? 'success' : 'danger')
+                    ->icon(fn($state) => $state === PostStatusType::ACTIVE ? Heroicon::CheckCircle : Heroicon::XCircle)
+                    ->color(fn($state) => $state === PostStatusType::ACTIVE ? 'success' : 'danger')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -43,6 +44,7 @@ class PostsTable
             ])
             ->recordActions([
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
